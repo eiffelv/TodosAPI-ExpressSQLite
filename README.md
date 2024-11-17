@@ -55,6 +55,7 @@ Eiffel Valentino's Extra Credit Implementation of Todos API from CSC 317 Class
 > | http code     | content-type                      | response                                                                      |
 > |---------------|-----------------------------------|-------------------------------------------------------------------------------|
 > | `201`         | `application/json`  | `[{"id": 3, "task": "Watch YouTube", "completed": false, "priority": "low"}]` |
+> | `500`         | `application/json`  | `{ "message": "Data Failed to be Added", "error": <SQL-error-message> }` |
 
 #### Example JSON Request Body
 
@@ -82,6 +83,7 @@ Eiffel Valentino's Extra Credit Implementation of Todos API from CSC 317 Class
 > | http code     | content-type                      | response                                                                      |
 > |---------------|-----------------------------------|-------------------------------------------------------------------------------|
 > | `200`         | `application/json`  | `[{"id": 1, "task": "Learn Node.js", "completed": true, "priority": "high"}]` |
+> | `500`         | `application/json`  | `{ "error": <SQL-error-message> }` |
 
 #### Example cURL
 
@@ -105,7 +107,8 @@ Eiffel Valentino's Extra Credit Implementation of Todos API from CSC 317 Class
 > | http code     | content-type                      | response                                                                      |
 > |---------------|-----------------------------------|-------------------------------------------------------------------------------|
 > | `200`         | `application/json`  | `[{"id": 1, "task": "Watch YouTube", "completed": false, "priority": "low"}]` |
-> | `404`         | `text/html`  | `To-Do item not found` |
+> | `404`         | `application/json`  | `{"error": "To-Do item not found"}` |
+> | `500`         | `application/json`  | `{ "message": "Data Failed Updating", error: <SQL-error-message> }` |
 
 #### Example JSON Request Body
 
@@ -134,7 +137,8 @@ Eiffel Valentino's Extra Credit Implementation of Todos API from CSC 317 Class
 > | http code     | content-type | response               |
 > |---------------|--------------|------------------------|
 > | `204`         | `None`       | `None`                 |
-> | `404`         | `text/html`  | `To-Do item not found` |
+> | `404`         | `application/json`  | `{"error": "To-Do item not found"}` |
+> | `500`         | `application/json`  | `{ "error": <SQL-error-message> }` |
 
 #### Example cURL
 

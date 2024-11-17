@@ -42,10 +42,11 @@ app.post('/todos', (req, res) => {
   };
   db.run("INSERT INTO todos (task, completed, priority) VALUES (?, ?, ?)", [newTodo.task, newTodo.completed, newTodo.priority], function (err) {
     if (err) {
-      res.status(500).json({ error: err.message });
+      return res.status(500).json({ "message": "Data Failed to be Added", error: err.message });
+    } else {
+      newTodo.id = this.lastID;
+      return res.status(201).json(newTodo);
     }
-    newTodo.id = this.lastID;
-    res.status(201).json(newTodo);
   });
 });
 
@@ -55,9 +56,11 @@ app.put('/todos/complete-all', (req, res) => {
     if (err) {
       res.status(500).json({ error: err.message });
     }
-    db.all("SELECT * FROM todos", (err, rows) => {
-      res.json(rows);
-    });
+    else {
+      db.all("SELECT * FROM todos", (err, rows) => {
+        res.json(rows);
+      });
+    }
   });
 });
 
@@ -71,10 +74,10 @@ app.put('/todos/:id', (req, res) => {
   };
   db.run("UPDATE todos SET task = ?, completed = ?, priority = ? WHERE id = ?", [todo.task, todo.completed, todo.priority, id], function (err) {
     if (err) {
-      res.status(500).json({ error: err.message });
+      res.status(500).json({ message: "Data Failed Updating", error: err.message });
     }
-    if (this.changes === 0) {
-      res.status(404).send("To-Do item not found");
+    else if (this.changes === 0) {
+      res.status(404).json({ error: "To-Do item not found" });
     } else {
       res.json(todo);
     }
@@ -88,8 +91,8 @@ app.delete('/todos/:id', (req, res) => {
     if (err) {
       res.status(500).json({ error: err.message });
     }
-    if (this.changes === 0) {
-      res.status(404).send("To-Do item not found");
+    else if (this.changes === 0) {
+      res.status(404).json({ error: "To-Do item not found" });
     } else {
       res.status(204).send();
     }
